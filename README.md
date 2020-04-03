@@ -1,7 +1,7 @@
 # Hetzner hcloud Terraform module
 
 ## Description
-Terraform module that enables Create, Retrieve, Update and Delete (CRUD) operations for resources on [Hetzner Cloud](https://www.hetzner.com/cloud). You could use this as part of an Infrastructure as Code (IaC) pipeline to create a vitual Linux server on Hetzner Cloud.
+Terraform module that enables Create, Retrieve, Update and Delete (CRUD) operations for resources on [Hetzner Cloud](https://www.hetzner.com/cloud). You could use this as part of an Infrastructure as Code (IaC) pipeline to create a virtual Linux server on Hetzner Cloud.
 
 ## Provider Resources
 The following resources are supported:
@@ -46,7 +46,7 @@ module "hcloud" {
 
 
 ### Conditional creation
-Sometimes you need to have a way to create resources conditionally but Terraform does not allow to use `count` inside `module` block. This module only creates resources if any `_name` variables are set. 
+Sometimes you need to have a way to create resources conditionally however Terraform does not allow to use `count` inside `module` block. This module only creates resources if any `_name` variables are set. 
 
 The following example does not create any resources.
 
@@ -68,10 +68,6 @@ module "hcloud" {
 
 ## Examples
 More detailed examples are contained in module/examples.
-
-## Inputs
-
-## Outputs
 
 ## Versioning
 This module uses [semantic versioning](https://semver.org/) to avoid compatibility problems.
