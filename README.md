@@ -64,6 +64,7 @@ module "hcloud" {
   # hcloud_volume_name = "testvol-1"
   # hcloud_floatingip_name = "testip-1"
   # hcloud_fqdn_name = "ip.test.com"
+}
 ```
 
 ## Examples
