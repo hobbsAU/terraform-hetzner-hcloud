@@ -1,0 +1,39 @@
+#cloud-config
+
+# Upgrade the instance on first boot (ie run apt-get upgrade)
+package_update: true
+package_upgrade: true
+ 
+packages:
+  - aptitude
+  - haveged
+
+# Timezone: set the timezone for this instance and must also restart rsyslog to take effect in logs
+timezone: ${SYSTEM_TZ}
+
+users:
+  - name: root
+    lock_passwd: true
+  - name: ${SSH_USER}
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    lock_passwd: false
+    passwd: '*'
+    ssh-authorized-keys: ${SSH_ALLOWEDKEYS}
+
+runcmd: 
+  - [ systemctl, restart, rsyslog.service ]
+  - 'rm -rf /etc/ssh/ssh_host*'
+  - 'ssh-keygen -q -a 100 -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""'
+  - sed -i -E '/^(.*)Port/s/^.*$/Port ${SSH_PORT}/' /etc/ssh/sshd_config
+  - sed -i -E '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -E '$aAllowUsers ${SSH_USER}' /etc/ssh/sshd_config
+  - sed -i -E '$aHostKey /etc/ssh/ssh_host_ed25519_key' /etc/ssh/sshd_config
+  - [ systemctl, restart, ssh.service ]
+
+swap:
+  filename: /var/swap.img
+  size: "auto" # or size in bytes
+  maxsize: 4294967296
+
