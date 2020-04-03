@@ -1,4 +1,4 @@
-# Example - Server Provisioning on hcloud
+# Example: Server provisioning on hcloud
 
 ## Description
 The example in this directory will provision a server instance on Hetzner Cloud. Only the server resource is configured.
@@ -12,9 +12,9 @@ This example uses the defaults set within the module variables.
 ## Usage
 ```bash
 $ git clone https://github.com/hobbsAU/terraform-hetzner-hcloud.git
-$ cd examples/server
+$ cd terraform-hetzner-hcloud/examples/server
 $ ssh-keygen -t ed25519 -o -a 100 -f ./id_ed25519_user -C "ExampleKey"
-$ echo "INSERT_API_TOKEN_HERE" > API_TOKEN
+$ echo "INSERT_HETZNER_API_TOKEN_HERE" > API_TOKEN
 $ terraform init
 $ terraform plan
 $ terraform apply

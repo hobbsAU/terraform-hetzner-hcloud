@@ -1,14 +1,14 @@
 # Hetzner hcloud Terraform module
 
 ## Description
-Terraform module that enables Create, Retrieve, Update and Delete (CRUD) operations for resources on [Hetzner Cloud](https://www.hetzner.com/cloud).
+Terraform module that enables Create, Retrieve, Update and Delete (CRUD) operations for resources on [Hetzner Cloud](https://www.hetzner.com/cloud). You could use this as part of an Infrastructure as Code (IaC) pipeline to create a vitual Linux server on Hetzner Cloud.
 
 ## Provider Resources
 The following resources are supported:
 - [hcloud_server](https://www.terraform.io/docs/providers/hcloud/r/server.html)
 - [hcloud_volume](https://www.terraform.io/docs/providers/hcloud/r/volume.html)
 - [hcloud_ssh_key](https://www.terraform.io/docs/providers/hcloud/r/ssh_key.html)
-- [hcloud_floating_ip](https://www.terraform.io/docs/providers/hcloud/r/floating_ip.html))
+- [hcloud_floating_ip](https://www.terraform.io/docs/providers/hcloud/r/floating_ip.html)
 - [hcloud_rdns](https://www.terraform.io/docs/providers/hcloud/r/rdns.html)
 
 
@@ -46,7 +46,9 @@ module "hcloud" {
 
 
 ### Conditional creation
-Sometimes you need to have a way to create resources conditionally but Terraform does not allow to use `count` inside `module` block. This module only creates resources if `_name` variables are set. The following example does not create any resources.
+Sometimes you need to have a way to create resources conditionally but Terraform does not allow to use `count` inside `module` block. This module only creates resources if any `_name` variables are set. 
+
+The following example does not create any resources.
 
 ```hcl
 module "hcloud" {
@@ -77,6 +79,3 @@ This module uses [semantic versioning](https://semver.org/) to avoid compatibili
 ## Authors
 Module is created and maintained by [hobbsAU](https://github.com/hobbsAU).
 
-Notes
-Declarative
-Structural/Simple Types
