@@ -12,32 +12,32 @@ locals {
 
 # Define SSH keys
 resource "hcloud_ssh_key" "this" {
-  count = var.hcloud_server_name != "" ? 1 : 0
-  name = var.hcloud_sshkey_name
+  count      = var.hcloud_server_name != "" ? 1 : 0
+  name       = var.hcloud_sshkey_name
   public_key = file(var.hcloud_sshkey_public)
 }
 
 # Cloud-init template used for bootstrapping server
 data "template_file" "broker_cloudinit" {
-  count = var.hcloud_server_name != "" ? 1 : 0
+  count    = var.hcloud_server_name != "" ? 1 : 0
   template = file(var.system_userdata)
   vars = {
-    SYSTEM_TZ = var.system_tz
-    SSH_USER = var.system_ssh_user
-    SSH_PORT = var.system_ssh_port
+    SYSTEM_TZ       = var.system_tz
+    SSH_USER        = var.system_ssh_user
+    SSH_PORT        = var.system_ssh_port
     SSH_ALLOWEDKEYS = "[ ${join(", ", [for s in local.ssh_allowed_keys : format("%q", s)])} ]"
-    }
   }
+}
 
 # Define server instance
 resource "hcloud_server" "this" {
-  count = var.hcloud_server_name != "" ? 1 : 0
-  name = var.hcloud_server_name
-  image = var.hcloud_server_os
+  count       = var.hcloud_server_name != "" ? 1 : 0
+  name        = var.hcloud_server_name
+  image       = var.hcloud_server_os
   server_type = var.hcloud_server_type
-  location = var.hcloud_location
-  ssh_keys = [hcloud_ssh_key.this[0].id]
-  user_data = data.template_file.broker_cloudinit[0].rendered
+  location    = var.hcloud_location
+  ssh_keys    = [hcloud_ssh_key.this[0].id]
+  user_data   = data.template_file.broker_cloudinit[0].rendered
 
   # Wait for SSH
   provisioner "local-exec" {
@@ -57,16 +57,16 @@ resource "hcloud_server" "this" {
 
 # Define storage volume
 resource "hcloud_volume" "this" {
-  count = var.hcloud_volume_name != "" ? 1 : 0
-  name = var.hcloud_volume_name 
+  count    = var.hcloud_volume_name != "" ? 1 : 0
+  name     = var.hcloud_volume_name
   location = var.hcloud_location
   size     = var.hcloud_volume_size
-  format = var.hcloud_volume_format
+  format   = var.hcloud_volume_format
 }
 
 # Attach storage volume to server instance
 resource "hcloud_volume_attachment" "this" {
-  count = var.hcloud_server_name != "" && var.hcloud_volume_name != "" ? 1 : 0
+  count     = var.hcloud_server_name != "" && var.hcloud_volume_name != "" ? 1 : 0
   volume_id = hcloud_volume.this[0].id
   server_id = hcloud_server.this[0].id
   automount = true
@@ -74,25 +74,25 @@ resource "hcloud_volume_attachment" "this" {
 
 # Define floating IPv4 address
 resource "hcloud_floating_ip" "this" {
-  count = var.hcloud_floatingip_name != "" ? 1 : 0
-  type = "ipv4"
+  count         = var.hcloud_floatingip_name != "" ? 1 : 0
+  type          = "ipv4"
   home_location = var.hcloud_location
-  description = var.hcloud_floatingip_name
+  description   = var.hcloud_floatingip_name
 }
 
 # Attach floating IPv4 to server instance
 resource "hcloud_floating_ip_assignment" "this" {
-  count = var.hcloud_server_name != "" && var.hcloud_floatingip_name != "" ? 1 : 0
+  count          = var.hcloud_server_name != "" && var.hcloud_floatingip_name != "" ? 1 : 0
   floating_ip_id = hcloud_floating_ip.this[0].id
-  server_id = hcloud_server.this[0].id
+  server_id      = hcloud_server.this[0].id
 }
 
 # Setup RDNS for Floating IP
 resource "hcloud_rdns" "this" {
-  count = var.hcloud_floatingip_name != "" && var.hcloud_fqdn_name != "" ? 1 : 0
+  count          = var.hcloud_floatingip_name != "" && var.hcloud_fqdn_name != "" ? 1 : 0
   floating_ip_id = hcloud_floating_ip.this[0].id
-  ip_address = hcloud_floating_ip.this[0].ip_address
-  dns_ptr = var.hcloud_fqdn_name
+  ip_address     = hcloud_floating_ip.this[0].ip_address
+  dns_ptr        = var.hcloud_fqdn_name
 }
 
 

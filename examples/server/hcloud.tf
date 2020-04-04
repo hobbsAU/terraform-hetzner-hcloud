@@ -29,26 +29,26 @@ module "hcloud" {
 
   # Additional authorized SSH keys example (optional)
   # system_ssh_allowedkeys = [ 
-      #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG98Y8egOBwfMdR5Wv7Wam/Y4ww5nzukBHBGDx/vnJvm key1@system", 
-      #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG98Y8egOBwfMdR5Wv7Wam/Y4ww5nzukBHBGDx/vnJvm key2@system"
-    #]
+  #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG98Y8egOBwfMdR5Wv7Wam/Y4ww5nzukBHBGDx/vnJvm key1@system", 
+  #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG98Y8egOBwfMdR5Wv7Wam/Y4ww5nzukBHBGDx/vnJvm key2@system"
+  #]
 }
 
 
 # Output variables
 output "hcloud_host_ipv4" {
-description = "Host IP"
-value = module.hcloud.host_ipv4
+  description = "Host IP"
+  value       = module.hcloud.host_ipv4
 }
 output "hcloud_floating_ipv4" {
-description = "Floating IP"
-value = module.hcloud.floating_ipv4
+  description = "Floating IP"
+  value       = module.hcloud.floating_ipv4
 }
 output "hcloud_volume_device" {
-description = "Volume Device"
-value = module.hcloud.volume_device
+  description = "Volume Device"
+  value       = module.hcloud.volume_device
 }
 output "hcloud_dns_ptr" {
-description = "DNS PTR Record"
-value = module.hcloud.dns_ptr
+  description = "DNS PTR Record"
+  value       = module.hcloud.dns_ptr
 }
