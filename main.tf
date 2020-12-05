@@ -7,7 +7,7 @@ provider "hcloud" {
 
 # Locals
 locals {
-  ssh_allowed_keys = flatten([["${file(var.hcloud_sshkey_public)}"], var.system_ssh_allowedkeys])
+  ssh_allowed_keys = flatten([[file(var.hcloud_sshkey_public)], var.system_ssh_allowedkeys])
 }
 
 # Define SSH keys

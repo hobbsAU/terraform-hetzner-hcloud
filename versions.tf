@@ -1,8 +1,10 @@
 terraform {
-  required_version = "~> 0.12"
+  required_version = "~> 0.14"
 
   required_providers {
-    hcloud   = "~> 1.16"
+    hcloud = {
+      source = "hetznercloud/hcloud"
+    }
     template = "~> 2.1"
   }
 }
