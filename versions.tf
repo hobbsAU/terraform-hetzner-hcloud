@@ -5,7 +5,7 @@ terraform {
     hcloud = {
       source = "hetznercloud/hcloud"
     }
-    template = "~> 2.1"
+    template = "~> 2.2"
   }
 }
 
