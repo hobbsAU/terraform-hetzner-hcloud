@@ -95,4 +95,11 @@ resource "hcloud_rdns" "this" {
   dns_ptr        = var.hcloud_fqdn_name
 }
 
+# Setup RDNS for server IPv6
+resource "hcloud_rdns_server" "this" {
+  count          = var.hcloud_server_name != "" && var.hcloud_fqdn_name != "" ? 1 : 0
+  server_id      = hcloud_server.this[0].id
+  ip_address     = hcloud_server.this[0].ipv6_address
+  dns_ptr        = var.hcloud_fqdn_name
+}
 
