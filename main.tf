@@ -88,7 +88,7 @@ resource "hcloud_floating_ip_assignment" "this" {
 }
 
 # Setup RDNS for Floating IP
-resource "hcloud_rdns" "this" {
+resource "hcloud_rdns" "rdnd_floating" {
   count          = var.hcloud_floatingip_name != "" && var.hcloud_fqdn_name != "" ? 1 : 0
   floating_ip_id = hcloud_floating_ip.this[0].id
   ip_address     = hcloud_floating_ip.this[0].ip_address
@@ -96,7 +96,7 @@ resource "hcloud_rdns" "this" {
 }
 
 # Setup RDNS for server IPv6
-resource "hcloud_rdns_server" "this" {
+resource "hcloud_rdns" "rdns_ipv6" {
   count          = var.hcloud_server_name != "" && var.hcloud_fqdn_name != "" ? 1 : 0
   server_id      = hcloud_server.this[0].id
   ip_address     = hcloud_server.this[0].ipv6_address

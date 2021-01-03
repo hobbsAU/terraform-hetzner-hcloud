@@ -9,5 +9,5 @@ output "volume_device" {
   value = hcloud_volume.this.*.linux_device
 }
 output "dns_ptr" {
-  value = hcloud_rdns.this.*.dns_ptr
+  value = hcloud_rdns.floating.*.dns_ptr
 }
